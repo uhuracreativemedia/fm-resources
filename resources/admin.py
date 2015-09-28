@@ -96,7 +96,7 @@ class ResourceAdmin(FeinCMSModelAdmin):
         super(ResourceAdmin, self).__init__(*args, **kwargs)
         self.list_display_links = (None,)
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, *args):
         return False
 
     def title_link(self, obj):
@@ -202,7 +202,7 @@ class WeblinkAdmin(ResourceAdmin):
             for i in getattr(settings, setting):
                 self.inlines.append(get_class_from_string(i))
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, *args):
         return True
 
 admin.site.register(Weblink, WeblinkAdmin)
