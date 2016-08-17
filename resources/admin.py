@@ -1,9 +1,10 @@
+from importlib import import_module
+
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.core import urlresolvers
 from django.db import models
-from django.utils.importlib import import_module
 from django.utils.translation import ugettext_lazy as _
 from feincms.admin.tree_editor import TreeEditor as _feincms_tree_editor
 from mptt.admin import MPTTModelAdmin
