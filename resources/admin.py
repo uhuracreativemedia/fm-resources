@@ -1,5 +1,6 @@
 from importlib import import_module
 
+import django
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
@@ -168,7 +169,11 @@ class PageAdmin(admin.ModelAdmin):
 
     def __init__(self, *args, **kwargs):
         super(PageAdmin, self).__init__(*args, **kwargs)
-        setting = "RESOURCES_%s_TEXTWIDGET" % self.model._meta.module_name.upper()
+        if django.VERSION < (1, 7):
+            model_name = self.model._meta.module_name
+        else:
+            model_name = self.model._meta.model_name
+        setting = "RESOURCES_%s_TEXTWIDGET" % model_name.upper()
         if hasattr(settings, setting):
             self.formfield_overrides = {
                 models.TextField: {'widget': get_class_from_string(getattr(settings, setting)) }
@@ -177,7 +182,7 @@ class PageAdmin(admin.ModelAdmin):
             overrides.update(self.formfield_overrides)
             self.formfield_overrides = overrides
 
-        setting = "RESOURCES_%s_INLINES" % self.model._meta.module_name.upper()
+        setting = "RESOURCES_%s_INLINES" % model_name.upper()
         if hasattr(settings, setting):
             self.inlines = list(self.inlines)
             for i in getattr(settings, setting):
@@ -195,9 +200,13 @@ admin.site.register(Page, PageAdmin)
 class WeblinkAdmin(ResourceAdmin):
 
     def __init__(self, *args, **kwargs):
+        if django.VERSION < (1, 7):
+            model_name = self.model._meta.module_name
+        else:
+            model_name = self.model._meta.model_name
         super(WeblinkAdmin, self).__init__(*args, **kwargs)
 
-        setting = "RESOURCES_%s_INLINES" % self.model._meta.module_name.upper()
+        setting = "RESOURCES_%s_INLINES" % model_name.upper()
         if hasattr(settings, setting):
             self.inlines = list(self.inlines)
             for i in getattr(settings, setting):
