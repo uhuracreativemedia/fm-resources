@@ -200,6 +200,7 @@ admin.site.register(Page, PageAdmin)
 class WeblinkAdmin(ResourceAdmin):
 
     def __init__(self, *args, **kwargs):
+        super(PageAdmin, self).__init__(*args, **kwargs)
         if django.VERSION < (1, 7):
             model_name = self.model._meta.module_name
         else:
