@@ -80,7 +80,7 @@ def page_or_else(resource, code):
 
 
 class ResourceAdmin(FeinCMSModelAdmin):
-    list_display = ('__unicode__',
+    list_display = ('title',
                     'title_link',
                     'is_published',
                     'in_menu',
