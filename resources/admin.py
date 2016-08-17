@@ -94,10 +94,6 @@ class ResourceAdmin(FeinCMSModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     ordering = ['tree_id', 'lft']
 
-    def __init__(self, *args, **kwargs):
-        super(ResourceAdmin, self).__init__(*args, **kwargs)
-        self.list_display_links = (None,)
-
     def has_add_permission(self, *args):
         return False
 
